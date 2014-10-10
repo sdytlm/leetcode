@@ -12,19 +12,24 @@ class Solution {
 public:
 
 	    char *strStr(char *haystack, char *needle) {
-			if (!*needle) return (char *)haystack;
+				if (!*needle) return (char *)haystack;
                 else if (!*haystack) return NULL;
-            int lenH = strlen(haystack);
-            int lenN = strlen(needle);
-	
-			cout << lenH << endl;
-			cout << lenN << endl;
-			int i,j;
+
+
+			int i=0,j;
+			int lenH=0,lenN=0;
+			// Calculate the length
+			while(haystack[i++]!='\0')
+				lenH++;
+			i=0;
+			while(needle[i++]!='\0')
+				lenN++;
+			// Compare haystack[i+j] and needle[j]	
 			for(i=0;i<lenH-lenN+1;i++) {
-				for(j=0;j<lenN;j++){ 
+				for(j=0;j<lenN;j++){
 				    if(haystack[i+j] != needle[j]) {
-						break;
-					}
+							break;
+						}
 				  }
 				  if(j==lenN)
 				    return (char *)(haystack+i);
@@ -38,8 +43,9 @@ public:
 
 int main() {
 	Solution sol;
-	char s[] = {'a','a','a'};
-	char b[] = {'a','a','a','a'};
+	char s[] = "aaa";
+	char b[] = "aaaa";
+//	cout << sizeof(s) << endl;
 	cout << sol.strStr(s,b);
 	return 0;
 }
