@@ -11,12 +11,12 @@ public:
 		int result=0;                          // The final result
 		// Discard the whitespaces before the first non-whitespace.
 		while(index<strLen && str[index]==' ') index++;
-		
+
 		// The input only contains whitespaces
 		if(index==strLen)
 		  return 0;
 
-		// Determine the sign 
+		// Determine the sign
 		if(str[index]=='-') {                      // Input starts with "-"
 		  sign = -1;
 		  ++index;
@@ -27,25 +27,25 @@ public:
 		}
 		else if(str[index] < '0' || str[index] > '9') // Invalid input
 		  return 0;
-		else									// Unsigned input 
+		else									// Unsigned input
 		  sign = 1;
 
 		// Retrieve the digit after first non-whitespace character
 		while(index<strLen) {
-			if(str[index]>'0' && str[index]<'9') {                                          // New character is 0-9
+			if(str[index]>='0' && str[index]<='9') {                                          // New character is 0-9
 				int digit = str[index]-'0';
 				if(result>INT_MAX/10 || (result==INT_MAX/10 && digit>INT_MAX%10)) {	// Overflow or underflow
 					result = sign==-1?INT_MIN:INT_MAX;
-					break;
 				}
 				else
-				   result += result*10+digit;
+				   result = result*10+digit;
 			}
-			else																		// New character is not 0-9                                          
+			else																		// New character is not 0-9
 			  break;
+
 			index++;
 		}
-		
+
 
 		return sign*result;
     }
