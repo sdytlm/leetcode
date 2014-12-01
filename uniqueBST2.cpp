@@ -25,6 +25,35 @@ Given n = 3, your program should return all 5 unique BST's shown below.
 class Solution {
 public:
     vector<TreeNode *> generateTrees(int n) {
-        
+        vector<TreeNode *> result;
+        if(n<1)
+          return result;
+        rec(result,1,n);
+        return ;
+    }
+
+     void rec(vector<TreeNode *> &result, int start, int end) {
+       if(start>end) {
+         result.push_back(NULL);
+         return result;
+       }
+       int i,j;
+       for(i=start;i<=end;i++) {
+         vector<TreeNode *> leftTree;
+         rec(leftTree,start,i-1);
+         vector<TreeNode *> rightTree;
+         rec(rightTree,i+1,end);
+
+         // 从底往上构造每个可能的解
+         for(i=0;i<leftTree.size();i++) {
+           for(j=0;j<rightTree.size();j++) {
+             TreeNode *node = new TreeNode(i);
+             node->left = leftTree[i];
+             node->right = rightTree[j];
+
+             result.push_back(node);
+           }
+         }
+       }
     }
 };
