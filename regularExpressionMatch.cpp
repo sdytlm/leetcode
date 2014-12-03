@@ -19,34 +19,20 @@ isMatch("aab", "c*a*b") → true
 
 class Solution {
 public:
-  bool isMatch(const char *s, const char *p) {
-    const char *head = s;
-    return rec(s,p,head);
+    bool isMatch(const char *s, const char *p) {
+      assert(s && p);
+      if (*p == '\0') return *s == '\0';
 
-  }
-
-
-  bool rec(const char *s, const char *p, const char *head) {
-    if(*s=='\0') // s为空匹配成功
-      return true;
-
-      if(*p=='\0' && *s!='\0') // p为空而s不是空 p不能匹配s
-        return false;
-
-        if(*p=='*'){
-          if(*s==*(p-1) || *(p-1)=='.'){ // 被*的字母能匹配s中当前字母
-            return (rec(s+1,p,head) || rec(s+1,p+1,head));
-          }
-          else { // 被*字母不能匹配s中当前字母
-            return rec(head,p+1,head);
-          }
-        }
-
-        // p和s都不为空
-        if(*p==*s || *p=='.') {
-          return rec(s+1,p+1,head);
-        }
-        else
-          return rec(head,p+1,head);
-        }
-      };
+      // next char is not '*': must match current character
+      if (*(p+1) != '*') {
+        assert(*p != '*');
+        return ((*p == *s) || (*p == '.' && *s != '\0')) && isMatch(s+1, p+1);
+      }
+      // next char is '*'
+      while ((*p == *s) || (*p == '.' && *s != '\0')) {
+        if (isMatch(s, p+2)) return true;
+        s++;
+      }
+      return isMatch(s, p+2);
+    }
+};
