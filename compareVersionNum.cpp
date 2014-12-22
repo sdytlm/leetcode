@@ -14,23 +14,32 @@ Here is an example of version numbers ordering:
 
 class Solution {
 public:
-  int strLen(string &s, int &start) {
-      while(start<s.size() && s[start]=='0')
-          ++start;
-      int end = start;
-      while(end<size() && s[end]!='.')
-          ++end;
-      return end-start;
-  }
-
-
-
   int compareVersion(string version1, string version2) {
-      int len1 = version1.size();
-      int len2 = version2.size();
-      int start1,start2;
-      for(start1=0,start2=0; start1 < len1 || start2 < len2; ++start1, ++start2) {
+        int i=0,j=0;
+        while(i<version1.size() || j<version2.size()) {
+            int num1=0;
+            int num2=0;
+            while(i<version1.size() && version1[i]!='.'){   // 计算小数点前部分或者小数点后部分的数
+                num1 = 10*num1 + version1[i]-'0';
+                i++;
 
+            }
+            while(j<version2.size() && version2[j]!='.'){   // 同上
+                num2 = 10*num2 + version2[j]-'0';
+                j++;
+            }
 
+            // 比较两个数
+            if(num1 > num2)
+                return 1;
+
+            if(num1 < num2)
+                return -1;
+
+            i++;
+            j++;
+
+        }
+        return 0;
   }
 };
